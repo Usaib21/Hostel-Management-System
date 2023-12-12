@@ -1,0 +1,172 @@
+/* your_css_file_path/style.css */
+
+.registration-success-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* .registration-success-container h1 {
+    color: #333;
+    font-size: 28px;
+} */
+.registration-success-container h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: black;
+    color: linear-gradient(135deg, #71b7e6, #9b59b6);
+    margin: 10px 0 20px; /* Adjust margin */
+    position: relative;
+  }
+
+  /* Add an underline under the container title */
+.registration-success-container h1::before {
+    content: "";
+    position: absolute;
+    left: 38%;
+    transform: translateX(-50%);
+    bottom: 0;
+    height: 3px;
+    width: 125px;
+    background: linear-gradient(135deg, #0056b3, #fc8003);
+  }
+
+.address-buttons {
+    margin-top: 20px;
+}
+
+.address-button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.red-bg {
+    background-color: #e74c3c;
+}
+
+.blue-bg {
+    background-color: #3498db;
+}
+
+.green-bg {
+    background-color: #2ecc71;
+}
+
+.yellow-bg {
+    background-color: #f39c12;
+}
+
+.hostel-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hostel-list li {
+    margin-bottom: 10px;
+}
+
+.view-rooms-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.view-rooms-link:hover {
+    background-color: #0056b3;
+}
+
+/* Add this to your style.css */
+
+/* Style for available floors */
+.floors-container {
+    margin-top: 20px;
+}
+
+.floor-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.floor-red-bg {
+    background-color: #e74c3c;
+}
+
+.floor-blue-bg {
+    background-color: #3498db;
+}
+
+.floor-green-bg {
+    background-color: #2ecc71;
+}
+
+.floor-yellow-bg {
+    background-color: #f39c12;
+}
+/* Add this to your existing CSS */
+.top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+
+/* Style for the "My Room" button */
+.my-room-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.my-room-button:hover {
+    background: linear-gradient(135deg, #0056b3, #0056b3); /* Updated background on hover */
+}
+
+/* Style for the custom confirmation popup */
+.custom-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .popup-buttons button {
+    margin: 0 5px;
+  }
+  
+

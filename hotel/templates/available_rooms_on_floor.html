@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block content %}
+{% include 'messages.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'rooms/styles.css' %}">
+<div class="container">
+  <h1>Available Rooms on Floor {{ floor_number }} in {{ hostel.name }}</h1>
+  {% if rooms_on_floor %}
+    <ul class="room-list">
+      {% for room in rooms_on_floor %}
+        <li class="room-item">
+          <div class="room-number">
+            Room: {{ room.floor_number }}_{{ room.room_number }}
+          </div>
+          <div class="room-actions">
+            <form method="post" action="{% url 'allot_room' room.id %}">
+              {% csrf_token %}
+              <button class="select-button" type="submit">Select</button>
+            </form>
+            <a class="details-link" href="{% url 'room_details' room.id %}">(Room Details)</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No available rooms on this floor.</p>
+  {% endif %}
+  <a href="{% url 'registration_success' pk=allotment.pk %}" class="btn btn-secondary" style="position: absolute; top: 10px; right: 10px;"><-Back</a>
+
+</div>
+{% endblock %}
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% include 'messages.html' %} 
+{% load static %} 
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'rooms/styles.css' %}"> 
+  <h1>Available Rooms on Floor {{ floor_number }} in {{ hostel.name }}</h1>
+  {% if rooms_on_floor %}
+    <ul>
+      {% for room in rooms_on_floor %}
+        <li>
+          Room: {{ room.floor_number }}{{ room.room_number }}
+          <form method="post" action="{% url 'allot_room' room.id %}">
+            {% csrf_token %}
+            <button type="submit">Select</button>
+          </form>
+          <a href="{% url 'room_details' room.id %}">(Details)</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No available rooms on this floor.</p>
+  {% endif %}
+{% endblock %}  {% endcomment %}
+
+
+
+
+<!-- available_rooms_on_floor.html -->
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+  <h1>Available Rooms on Floor {{ floor_number }} in {{ hostel.name }}</h1>
+  {% if rooms %}
+    <ul>
+      {% for room in rooms %}
+        <li>Room: {{ room.floor_number }}={{ room.room_number }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No available rooms on this floor.</p>
+  {% endif %}
+{% endblock %} {% endcomment %}

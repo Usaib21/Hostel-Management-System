@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+    <h2 class="mt-4">Attendance Saved</h2>
+    <p>Your attendance changes have been saved successfully.</p>
+    <a href="{% url 'take_attendance' %}" class="btn btn-warning">Back to Take Attendance</a>
+  </div>
+{% endblock %}

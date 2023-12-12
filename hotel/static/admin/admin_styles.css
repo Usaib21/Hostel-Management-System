@@ -1,0 +1,11 @@
+/* Green tick style for present students */
+.present-tick {
+    color: green;
+    font-size: 20px;
+}
+
+/* Red cross style for absent students */
+.absent-cross {
+    color: red;
+    font-size: 20px;
+}

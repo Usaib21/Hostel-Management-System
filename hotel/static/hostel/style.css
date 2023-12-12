@@ -1,0 +1,127 @@
+/* Add this to your style.css file */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 95%; /* Increase container width */
+    max-width: 800px; /* Set a larger maximum width */
+    background-color: #fff;
+    padding: 30px; /* Increase padding */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Increase border radius */
+}
+
+h1 {
+    font-size: 24px; /* Reset font size to the original */
+    font-weight: bold;
+    position: relative;
+    color: linear-gradient(135deg, #71b7e6, #9b59b6);
+    margin-bottom: 0; /* Set margin-bottom to 0 */
+    margin-top: 20px; /* Add margin-top to move it upwards */
+    text-align: center;
+}
+
+/* Add an underline under the container title */
+h1::before {
+    content: "";
+    position: absolute;
+    left: 33%; /* Center the underline */
+    transform: translateX(-50%); /* Center the underline */
+    bottom: -5px; /* Adjust the distance from the title */
+    height: 3px;
+    width: 70px;
+    background: linear-gradient(135deg, #0056b3, #fc8003);
+}
+
+form {
+    display: grid;
+    margin: 10px; /* Increase margin */
+    gap: 10px; /* Adjusted gap between upper and lower labels */
+    justify-content: space-between;
+    padding: 10px; /* Added padding to make labels equal sized */
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 20px 0; /* Reset margin */
+    gap: 30px; /* Adjusted gap between labels */
+    font-weight: bold;
+}
+
+.form-row label {
+    grid-column: 1 / 2;
+    padding: 20px; /* Reset padding */
+    box-sizing: border-box;
+}
+
+form input,
+form select {
+    grid-column: 2 / 4;
+    width: 100%;
+    padding: 10px; /* Reset padding */
+    border: 3px solid #ccc;
+    border-radius: 4px;
+    margin: 1px 0 -20px 0;
+    outline: none;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-top: 25px; /* Reset margin */
+}
+
+.form-check-input {
+    margin-right: 5px; /* Reset margin */
+}
+
+.form-check-label {
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.form-check a {
+    color: #007bff;
+}
+
+.form-check a:hover {
+    text-decoration: underline;
+}
+
+form input[type="submit"] {
+    background: linear-gradient(135deg, #71b7e6, #fc8003) !important;
+    color: #fff;
+    padding: 10px 15px !important; /* Reset padding */
+    border-radius: 8px;
+    cursor: pointer;
+    width: 150px;
+    margin-left: auto; /* Move the button to the right */
+}
+
+.form-messages {
+    margin-top: 10px; /* Reset margin */
+    color: #28a745;
+}
+
+.errorlist {
+    color: #dc3545;
+    margin: 0;
+}
+
+/* Responsive styling for smaller screens */
+@media screen and (max-width: 700px) {
+    .container {
+        width: 100%;
+        margin: 10px;
+    }
+}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Mess Payments</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Serial Number</th>
+                <th scope="col">Receipt Number</th>
+                <th>Months name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Bill From</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mess_record in mess_records %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'mess_bill_details' mess_record.id %}" >{{ mess_record.receipt_number }}</a></td>
+                <td>{{ mess_record.months_name }}</td>
+                <td>{{ mess_record.amount }}</td>
+                <td>{{ mess_record.generated_date }}</td>
+                <td>{% if mess_record.status %}<span class="badge badge-status paid">Paid</span>{% else %}<span class="badge badge-status pending">Pending</span>{% endif %}</td>
+                <td>
+                    {% if not mess_record.status %}
+                    <a href="#" class="btn btn-primary">Pay Now</a>
+                    {% else %}
+                    <a href="{% url 'mess_bill_details' mess_record.id %}" class="btn btn-secondary">View Bill</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No mess payments available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+    .badge-status {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+  
+    .badge-status.pending {
+      background-color: red;
+      color: white;
+    }
+  
+    .badge-status.paid {
+      background-color: green;
+      color: white;
+    }
+  </style>
+{% endblock %}

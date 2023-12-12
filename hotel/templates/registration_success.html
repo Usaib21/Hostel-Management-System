@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <title>Registration Success</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'reg_success/style.css' %}">
+</head>
+<body>
+    <a href="{% url 'home' %}" class="btn btn-secondary" style="position: absolute; top: 10px; left: 10px;">Back</a>
+    {% include 'messages.html' %} 
+    <div class="registration-success-container">
+        {% if allotment.allotted_room %}
+        <a class="my-room-button top-right" href="{% url 'room_details' allotment.allotted_room.id %}">My Room</a>
+        {% endif %}
+        <h1>WELCOME TO HOSTEL!</h1> 
+        {% if allotment %}
+            <p>Hostel address:</p>
+            <div class="address-buttons">
+                <a class="address-button red-bg" href="#" data-hostel-id="{{ hostels.0.id }}">{{ hostels.0.name }}</a>
+                <a class="address-button blue-bg" href="#" data-hostel-id="{{ hostels.1.id }}">{{ hostels.1.name }} </a>
+                <a class="address-button green-bg" href="#" data-hostel-id="{{ hostels.2.id }}">{{ hostels.2.name }}</a>
+                <a class="address-button yellow-bg" href="#" data-hostel-id="{{ hostels.3.id }}">{{ hostels.3.name }}</a>
+            </div>
+            <div class="floors-container" id="floors-container"></div>
+            <p>Note: Click on the hostel name that you have been allotted for room allocation.</p>
+        {% else %}
+            <p>No allotment details found for the current user.</p>
+        {% endif %}
+        {% comment %} <a href="{% url 'available_floors_for_change' allotment.allotted_hostel.id %}" class="btn btn-primary">Change Room</a> {% endcomment %}
+        {% if user_has_approved_change_room_request %}
+          <a href="{% url 'available_floors_for_change' allotment.allotted_hostel.id %}" class="btn btn-primary">Change Room</a>
+        {% else %}
+          <a href="{% url 'before_change_room' %}" class="btn btn-primary">Change Room</a>
+        {% endif %}
+
+
+        <!-- Add Cancel Hostel Button -->
+         <button id="cancelHostelButton" class="btn btn-danger">Cancel Hostel</button>
+        <div class="floors-container" id="floors-container"></div>
+    </div>
+    <img src="/static/images/uni.jpeg" class="img-fluid" alt="..." style="margin-top: -13px; margin-bottom: 2px; height: 380px; width: 1250px; margin-left: 1px; margin-right: 10px; padding-left: 1px; padding-right: 1px;">
+    <!-- Custom Confirmation Popup -->
+    <div id="customConfirmationPopup" class="custom-popup">
+        <div class="popup-content">
+            <p>Are you sure you want to cancel your hostel?</p>
+            <div class="popup-buttons">
+                <button id="confirmCancelHostel" class="btn btn-primary">Yes</button>
+                <button id="cancelCancelHostel" class="btn btn-secondary">No</button>
+            </div>
+        </div>
+    </div>
+  {% comment %} <script src="{% static 'reg_success/script.js' %}"></script> {% endcomment %}
+
+    <script>
+        const addressButtons = document.querySelectorAll('.address-button');
+        const floorsContainer = document.getElementById('floors-container');
+        const allottedHostelId = {{ allotment.allotted_hostel.id }};
+    
+        addressButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const hostelId = button.getAttribute('data-hostel-id');
+                loadAvailableFloors(hostelId);
+            });
+        });
+    
+        function loadAvailableFloors(hostelId) {
+            fetch(`/get_available_floors/${hostelId}/`)
+                .then(response => response.text())
+                .then(data => {
+                    floorsContainer.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        
+        function loadAvailableRooms(hostelId, floorNumber) {
+            fetch(`/available_rooms_for_change/${hostelId}/${floorNumber}/`)
+                .then(response => response.text())
+                .then(data => {
+                    floorsContainer.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        const cancelHostelButton = document.getElementById('cancelHostelButton');
+        const confirmationPopup = document.getElementById('customConfirmationPopup');
+        const confirmCancelHostelButton = document.getElementById('confirmCancelHostel');
+        const cancelCancelHostelButton = document.getElementById('cancelCancelHostel');
+
+    cancelHostelButton.addEventListener('click', function () {
+        confirmationPopup.style.display = 'flex';
+    });
+
+    confirmCancelHostelButton.addEventListener('click', function () {
+        // Trigger the cancel hostel view by making an XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/cancel_hostel/', true);
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        // Redirect to the home page after successful cancellation
+                        window.location.href = '{% url "home" %}';
+                    } else {
+                        // Handle the case when cancellation was not successful
+                        alert('An error occurred while cancelling the hostel.');
+                    }
+                } else {
+                    console.error('Error:', xhr.statusText);
+                }
+            }
+        };
+
+        xhr.send();
+    });
+
+    cancelCancelHostelButton.addEventListener('click', function () {
+        confirmationPopup.style.display = 'none';
+    });
+    </script>
+    
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% include 'messages.html' %} 
+{% load static %}
+{% block content %}
+<head>
+    <title>Registration Success</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'reg_success/style.css' %}">
+</head>
+<body>
+    <div class="registration-success-container">
+        <h1>Registration Success!</h1>
+        {% include 'messages.html' %} 
+        {% if allotment %}
+            <p>Your hostel allotment request has been submitted successfully.</p>
+            <p>Hostel address:</p>
+            <div class="address-buttons">
+                <a class="address-button red-bg" href="{% url 'available_floors' 1 %}">{{ hostels.0.name }} - {{ hostels.0.address }}</a>
+                <a class="address-button blue-bg" href="{% url 'available_floors' 2 %}">{{ hostels.1.name }} - {{ hostels.1.address }}</a>
+                <a class="address-button green-bg" href="{% url 'available_floors' 3 %}">{{ hostels.2.name }} - {{ hostels.2.address }}</a>
+                <a class="address-button yellow-bg" href="{% url 'available_floors' 4 %}">{{ hostels.3.name }} - {{ hostels.3.address }}</a>
+            </div>
+            <!-- Display other relevant allotment details as needed -->
+        {% else %}
+            <p>No allotment details found for the current user.</p>
+        {% endif %}
+        <a class="view-rooms-link" href="{% url 'available_rooms' %}">View Available Rooms</a>
+    </div>
+</body>
+{% endblock %} {% endcomment %}
+

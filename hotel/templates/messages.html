@@ -1,0 +1,79 @@
+{% if messages %}
+<div class="container">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="message-{{ forloop.counter }}">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <script>
+        setTimeout(function() {
+            var messageElement = document.getElementById('message-{{ forloop.counter }}');
+            messageElement.classList.add('fade');
+            setTimeout(function() {
+                messageElement.remove();
+            }, 1000); // Remove the element after the fade-out animation
+        }, 5000); // Auto-hide after 3 seconds
+    </script>
+    {% endfor %}
+</div>
+
+{% endif %}
+
+
+{% comment %} {% if messages %}
+<div class="container">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" data-bs-autohide="true" data-bs-delay="5000">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %} {% endcomment %}
+
+
+
+
+
+
+
+
+{% comment %} from django.db import migrations
+
+def create_hostels(apps, schema_editor):
+    Hostel = apps.get_model('room', 'Hostel')
+    Hostel.objects.create(name='BH1', capacity=300)
+    Hostel.objects.create(name='GH1', capacity=300)
+    Hostel.objects.create(name='BH2', capacity=300)
+    Hostel.objects.create(name='GH2', capacity=300)
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('room', '0002_hostel_receiptnumbercounter_customuser_date_and_more'),  # Replace '000y_previous_migration' with the previous migration's name
+    ]
+
+    operations = [
+        migrations.RunPython(create_hostels),
+    ]
+
+
+
+    from django.db import migrations
+
+
+    def create_initial_counter(apps, schema_editor):
+        ReceiptNumberCounter = apps.get_model('room', 'ReceiptNumberCounter')
+        ReceiptNumberCounter.objects.create(counter=1)
+    
+    class Migration(migrations.Migration):
+    
+        dependencies = [
+            ('room', '0003_auto_20230824_0223'),# Update this with the actual dependency
+        ]
+    
+        operations = [
+            migrations.RunPython(create_initial_counter),
+        ] 
+ {% endcomment %}
+

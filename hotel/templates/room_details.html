@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% include 'messages.html' %} 
+{% block content %}
+
+   <h1>Hostel_Allotment Details</h1>
+   <p>Allotted Hostel: {{ allotment.allotted_hostel.name }}</p>
+  <p>Allotted Date: {{ allotment.allotted_date }}</p>
+
+  <h1>Room Details</h1>
+  <p>Room Number: {{ room.room_number }}</p>
+  <p>Floor Number: {{ room.floor_number }}</p>
+  <p>Free Capacity: {{ room.capacity }}</p>
+  
+  <h2>Occupants</h2>
+  {% if occupant_details %}
+    {% for occupant in occupant_details %}
+      <p>Full Name: {{ occupant.full_name }}</p>
+      <p>Department: {{ occupant.department }}</p>
+      <p>Course: {{ occupant.course }}</p>
+      <hr>
+    {% endfor %}
+  {% else %}
+    <p>No occupants in this room.</p>
+  {% endif %}
+  <div class="room-actions">
+    <form method="post" action="{% url 'allot_room' room.id %}">
+      {% csrf_token %}
+      {% comment %} <button class="select-button" type="submit">Select</button> {% endcomment %}
+    </form>
+  </div>
+  <img src="/static/images/bed-1303450.jpg" class="img-fluid" alt="..." style="margin-top: 1px; margin-bottom: 2px; height: 300px; width: 1250px; margin-left: 1px; margin-right: 10px; padding-left: 1px; padding-right: 1px;">
+  {% comment %} {% if allotment %}
+  <a href="{% url 'registration_success' pk=allotment.pk %}" class="btn btn-secondary custom-back-button" style="position: absolute; top: 10px; right: 10px;">Back</a>
+{% else %}
+  <a href="{% url 'home' %}" class="btn btn-secondary custom-back-button">Back</a>
+{% endif %} {% endcomment %}
+<style>
+  /* Add your custom CSS styles here */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  h1,
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #71b7e6;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  h1::before,
+  h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    margin-left: 1px;
+    bottom: -8px;
+    height: 3px;
+    width: 50px;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+  }
+
+  p {
+    margin: 5px 0;
+    margin-left: 10px;
+  }
+
+  ul.occupant-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.occupant-list li {
+    margin-bottom: 10px;
+  }
+
+  .select-button {
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px; /* Corrected the property name */
+    cursor: pointer;
+  }
+
+  /* Add more custom styles as needed */
+</style>
+{% endblock %}
+
+
+{% comment %} {% extends 'base.html' %}
+{% include 'messages.html' %} 
+{% block content %}
+  <h1>Room Details</h1>
+  <p>Room Number: {{ room.room_number }}</p>
+  <p>Floor Number: {{ room.floor_number }}</p>
+  <p>Capacity: {{ room.capacity }}</p>
+  
+  <h2>Occupants</h2>
+  {% if occupant_details %}
+    <ul>
+      {% for occupant in occupant_details %}
+        <li>
+          Full Name: {{ occupant.full_name }}</li>
+          <li> Department: {{ occupant.department }}</li>
+          <li> Course: {{ occupant.course }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No occupants in this room.</p>
+  {% endif %}
+  
+  <a href="{% url 'change_room' %}">Change Room</a>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+  <h1>Room Details</h1>
+  <p>Room Number: {{ room.room_number }}</p>
+  <p>Floor Number: {{ room.floor_number }}</p>
+  <p>Capacity: {{ room.capacity }}</p>
+  
+  <h2>Occupants</h2>
+  {% if occupants %}
+    <ul>
+      {% for occupant in occupants %}
+        <li>{{ occupant.student.get_full_name }} ({{ occupant.student.department }} - {{ occupant.student.course }})</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No occupants in this room.</p>
+  {% endif %}
+  
+  <a href="{% url 'allot_room' room.id %}">Allot this room</a>
+{% endblock %} {% endcomment %}
+
+<!-- room_details.html -->
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+  <h1>Room Details</h1>
+  <p>Room: {{ room.floor_number }}{{ room.room_number }}</p>
+  <h2>Occupants:</h2>
+  {% if occupants %}
+    <ul>
+      {% for occupant in occupants %}
+        <li>{{ occupant.full_name }} - {{ occupant.course }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No occupants in this room.</p>
+  {% endif %}
+  <p><a href="{% url 'display_available_rooms' allotment.id %}">Back to Available Rooms</a></p>
+{% endblock %} {% endcomment %}

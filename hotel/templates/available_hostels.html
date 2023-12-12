@@ -1,0 +1,11 @@
+<!-- available_hostels.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Available Hostels</h1>
+  <ul>
+    {% for hostel in hostels %}
+      <li><a href="{% url 'available_floors' hostel.id %}">{{ hostel.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

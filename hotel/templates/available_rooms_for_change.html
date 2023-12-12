@@ -1,0 +1,437 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'messages.html' %}
+
+<div class="room-list-container">
+  <div class="available-rooms-list">
+    <h2>Available Rooms on Floor {{ floor_number }} for Room Change</h2>
+    <link rel="stylesheet" type="text/css" href="{% static 'popup/style.css' %}">
+    <ul>
+      {% for room in rooms_on_floor %}
+        {% if room.capacity > 0 %}
+          <li>
+            Room {{ room.floor_number }}{{ room.room_number }}
+            <form id="change-room-form" method="post" action="{% url 'change_room' %}">
+              {% csrf_token %}
+              <a href="#" class="change-room-link" data-room-id="{{ room.id }}">Change Room</a>
+              <input type="hidden" id="new_room_input" name="new_room" value="">
+            </form>
+            <a href="{% url 'room_details' room.id %}" class="room-details">Room Details</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    <a href="{% url 'registration_success' pk=allotment.pk %}" class="btn btn-secondary custom-back-button" style="position: absolute; top: 10px; right: 10px;">Back</a>
+  </div>
+  
+  <div class="change-room-section">
+    <!-- Custom Confirmation Popup -->
+    <div id="customConfirmationPopup" class="custom-popup">
+      <div class="popup-content">
+        {% comment %} <div class="icon" style="display: grid;
+        place-items: center;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+        </div> {% endcomment %}
+        <p>Are you sure you want to change your room?</p>
+        <div class="popup-buttons">
+          <button id="confirmChange" class="btn btn-primary">Yes</button>
+          <button id="cancelChange" class="btn btn-secondary">No</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const changeRoomLinks = document.querySelectorAll('.change-room-link');
+  const confirmationPopup = document.getElementById('customConfirmationPopup');
+  const confirmChangeButton = document.getElementById('confirmChange');
+  const cancelChangeButton = document.getElementById('cancelChange');
+  const newRoomInput = document.getElementById('new_room_input');
+
+  changeRoomLinks.forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      const roomId = this.getAttribute('data-room-id');
+      newRoomInput.value = roomId;
+      confirmationPopup.style.display = 'flex';
+    });
+  });
+
+  confirmChangeButton.addEventListener('click', function () {
+    document.getElementById('change-room-form').submit();
+  });
+
+  cancelChangeButton.addEventListener('click', function () {
+    confirmationPopup.style.display = 'none';
+  });
+</script>
+{% endblock %}
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'messages.html' %} 
+
+<div class="room-list-container">
+  <div class="available-rooms-list">
+    <h2>Available Rooms on Floor {{ floor_number }} for Room Change</h2>
+    <link rel="stylesheet" type="text/css" href="{% static 'popup/style.css' %}">
+    <ul>
+      {% for room in rooms_on_floor %}
+        {% if room.capacity > 0 %}
+          <li>
+            Room {{ room.floor_number }}{{ room.room_number }}
+            <form id="change-room-form" method="post" action="{% url 'change_room' %}">
+              {% csrf_token %}
+              <button class="change-room-button" data-room-id="{{ room.id }}">Change Room</button>
+              <input type="hidden" id="new_room_input" name="new_room" value="">
+            </form>
+            <a href="{% url 'room_details' room.id %}" class="room-details">Room Details</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="change-room-section">
+    <!-- Custom Confirmation Popup -->
+    <div id="customConfirmationPopup" class="custom-popup">
+      <div class="popup-content">
+        <p>Are you sure you want to change your room?</p>
+        <div class="popup-buttons">
+          <button id="confirmChange" class="btn btn-primary">Yes</button>
+          <button id="cancelChange" class="btn btn-secondary">No</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMContentLoaded event triggered');
+    const changeRoomButtons = document.querySelectorAll('.change-room-button');
+    const confirmationPopup = document.getElementById('customConfirmationPopup');
+    const confirmChangeButton = document.getElementById('confirmChange');
+    const cancelChangeButton = document.getElementById('cancelChange');
+    const newRoomInput = document.getElementById('new_room_input');
+
+    changeRoomButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        const roomId = this.getAttribute('data-room-id');
+        newRoomInput.value = roomId;
+        confirmationPopup.style.display = 'flex';
+      });
+    });
+
+    confirmChangeButton.addEventListener('click', function () {
+      console.log('Confirm button clicked');
+      document.getElementById('change-room-form').submit();
+    });
+
+    cancelChangeButton.addEventListener('click', function () {
+      console.log('Cancel button clicked');
+      confirmationPopup.style.display = 'none';
+    });
+  });
+</script>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'messages.html' %} 
+
+<div class="room-list-container">
+  <div class="available-rooms-list">
+    <h2>Available Rooms on Floor {{ floor_number }} for Room Change</h2>
+    <link rel="stylesheet" type="text/css" href="{% static 'popup/style.css' %}">
+    <ul>
+      {% for room in rooms_on_floor %}
+        {% if room.capacity > 0 %}
+          <li>
+            Room {{ room.floor_number }}{{ room.room_number }}
+            <form id="change-room-form" method="post" action="{% url 'change_room' %}">
+              {% csrf_token %}
+              <button class="change-room-button" data-room-id="{{ room.id }}">Change Room</button>
+              <input type="hidden" id="new_room_input" name="new_room" value="">
+            </form>
+            <a href="{% url 'room_details' room.id %}" class="room-details">Room Details</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="change-room-section">
+    <!-- Custom Confirmation Popup -->
+    <div id="customConfirmationPopup" class="custom-popup">
+      <div class="popup-content">
+        <p>Are you sure you want to change your room?</p>
+        <div class="popup-buttons">
+          <button id="confirmChange" class="btn btn-primary">Yes</button>
+          <button id="cancelChange" class="btn btn-secondary">No</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMContentLoaded event triggered');
+    const changeRoomButtons = document.querySelectorAll('.change-room-button');
+    const confirmationPopup = document.getElementById('customConfirmationPopup');
+    const confirmChangeButton = document.getElementById('confirmChange');
+    const cancelChangeButton = document.getElementById('cancelChange');
+    const newRoomInput = document.getElementById('new_room_input');
+
+    changeRoomButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        const roomId = this.getAttribute('data-room-id');
+        newRoomInput.value = roomId;
+        confirmationPopup.style.display = 'flex';
+      });
+    });
+
+    confirmChangeButton.addEventListener('click', function () {
+      console.log('Confirm button clicked');
+      document.getElementById('change-room-form').submit();
+    });
+
+    cancelChangeButton.addEventListener('click', function () {
+      console.log('Cancel button clicked');
+      confirmationPopup.style.display = 'none';
+    });
+  });
+</script>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'messages.html' %} 
+  <h2>Available Rooms on Floor {{ floor_number }} for Room Change</h2>
+  <link rel="stylesheet" type="text/css" href="{% static 'popup/style.css' %}">
+  <ul>
+    {% for room in rooms_on_floor %}
+      {% if room.capacity > 0 %}
+        <li>
+          Room {{ room.floor_number }}{{ room.room_number }}
+          <button class="change-room-link" data-room-id="{{ room.id }}">Change Room</button>
+          <a href="{% url 'room_details' room.id %}">Room Details</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  <!-- Custom Confirmation Popup -->
+  <div id="customConfirmationPopup" class="custom-popup">
+    <div class="popup-content">
+      <p>Are you sure you want to change your room?</p>
+      <div class="popup-buttons">
+        <button id="confirmChange" class="btn btn-primary">Yes</button>
+        <button id="cancelChange" class="btn btn-secondary">No</button>
+      </div>
+    </div>
+  </div>
+
+  <form id="change-room-form" method="post" action="{% url 'change_room' %}">
+    {% csrf_token %}
+    <input type="hidden" id="new_room_input" name="new_room" value="">
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const changeRoomLinks = document.querySelectorAll('.change-room-link');
+      const confirmationPopup = document.getElementById('customConfirmationPopup');
+      const confirmChangeButton = document.getElementById('confirmChange');
+      const cancelChangeButton = document.getElementById('cancelChange');
+      const newRoomInput = document.getElementById('new_room_input');
+
+      changeRoomLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          const roomId = this.getAttribute('data-room-id');
+          newRoomInput.value = roomId;
+          confirmationPopup.style.display = 'flex';
+        });
+      });
+
+      confirmChangeButton.addEventListener('click', function () {
+        document.getElementById('change-room-form').submit();
+      });
+
+      cancelChangeButton.addEventListener('click', function () {
+        confirmationPopup.style.display = 'none';
+      });
+    });
+  </script>
+{% endblock %} {% endcomment %}
+
+
+ 
+
+
+
+
+
+{% comment %} 
+ <!-- Confirmation Modal -->
+ <div id="confirmationModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Room Change</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to change your room?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" id="confirm-room-change">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    var selectedRoomId;
+
+    $(".change-room-link").click(function() {
+      selectedRoomId = $(this).data("room-id");
+      $("#confirmationModal").modal("show");
+    });
+
+    $("#confirm-room-change").click(function() {
+      $("#new_room_input").val(selectedRoomId);
+      $("#change-room-form").submit();
+    });
+  });
+</script> {% endcomment %}
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+  <h2>Available Rooms on Floor {{ floor_number }} for Room Change</h2>
+  <ul>
+    {% for room in rooms_on_floor %}
+      <li>
+        Room {{ room.floor_number }}{{ room.room_number }}
+        (<a href="#" onclick="showConfirmationModal('{{ room.id }}')">Change Room</a>)
+        <a href="{% url 'room_details' room.id %}">Room Details</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+   <!-- Confirmation Modal -->
+   <div id="confirmationModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Room Change</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to change your room?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form id="change-room-form" action="{% url 'change_room' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="new_room" id="new_room_input">
+            <button type="submit" class="btn btn-primary">Change Room</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showConfirmationModal(roomId) {
+      const confirmationModal = document.getElementById('confirmationModal');
+      const newRoomInput = document.getElementById('new_room_input');
+
+      newRoomInput.value = roomId;
+      $(confirmationModal).modal('show');
+    }
+  </script>
+{% endblock %} {% endcomment %}
+
+
+{% comment %} <!-- available_rooms_for_change.html -->
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Available Rooms on Floor {{ floor_number }} for Room Change</h2>
+  <ul>
+    {% for room in rooms_on_floor %}
+      {% if room.capacity > room.hostelallotmentregistration_set.count %}
+        <li>
+          Room {{ room.floor_number }}{{ room.room_number }}
+          (<a href="#" onclick="showConfirmationModal('{{ room.id }}')">Change Room</a>)
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+   <!-- Confirmation Modal -->
+   <div id="confirmationModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Room Change</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to change your room?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form id="change-room-form" action="{% url 'change_room' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="new_room" id="new_room_input">
+            <button type="submit" class="btn btn-primary">Change Room</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showConfirmationModal(roomId) {
+      const confirmationModal = document.getElementById('confirmationModal');
+      const newRoomInput = document.getElementById('new_room_input');
+
+      newRoomInput.value = roomId;
+      $(confirmationModal).modal('show');
+    }
+  </script>
+{% endblock %} {% endcomment %}

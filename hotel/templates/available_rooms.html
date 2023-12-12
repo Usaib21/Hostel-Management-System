@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% include 'messages.html' %} 
+{% block content %}
+  <h1>Available Rooms</h1>
+  {% include 'messages.html' %} 
+  {% if available_rooms %}
+    <p>Debug: Number of available rooms: {{ available_rooms|length }}</p>
+    <ul>
+      {% for room in available_rooms %}
+        <li>
+          Room: {{ room.floor_number }}{{ room.room_number }}
+          <a href="{% url 'room_details' room.id %}">(Details)</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Debug: No available rooms</p>
+    <p>No available rooms in your allotted hostel.</p>
+  {% endif %}
+  
+  <p><a href="{% url 'change_room' %}">Change Room</a></p>
+{% endblock %}
+
+
+
+
+{% comment %} {% block content %}
+  <h1>Available Rooms</h1>
+  {% if available_rooms %}
+    <ul>
+      {% for room in available_rooms %}
+        <li>
+          Room: {{ room.floor_number }}{{ room.room_number }}
+          <a href="{% url 'room_details' room.id %}">(Details)</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No available rooms in your allotted hostel.</p>
+  {% endif %}
+  <p><a href="{% url 'change_room' %}">Change Room</a></p>
+{% endblock %}  {% endcomment %}
+
+
+{% comment %} <!-- available_rooms.html -->
+{% extends 'base.html' %}
+{% block content %}
+  {% if allotment %}
+    <h2>Your Allotment Details</h2>
+    <!-- Display user's allotment details here -->
+    Allotted Hostel: {{ allotment.allotted_hostel.name }}<br>
+    Allotted Room: {{ allotment.allotted_room.floor_number }}{{ allotment.allotted_room.room_number }}<br>
+    <!-- Add more details as needed -->
+    <br>
+    <h2>Available Rooms</h2>
+    <ul>
+      {% for room in available_rooms %}
+        <li>
+          Room {{ room.floor_number }}{{ room.room_number }}
+          {% if room.capacity - room.hostelallotmentregistration_set.count() > 0 %}
+          (<a href="{% url 'change_room' room.id %}">Change Room</a>)
+
+            {% comment %}
+              (<a href="{% url 'change_room' %}">Change Room</a>)
+            
+          {% else %}
+            (Full)
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have not been allotted a hostel.</p>
+  {% endif %}
+{% endblock %} {% endcomment %}
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+  <h1>Available Rooms</h1>
+  {% if available_rooms %}
+    <ul>
+      {% for room in available_rooms %}
+        <li>
+          Room: {{ room.floor_number }}{{ room.room_number }}
+          <a href="{% url 'room_details' room.id %}">(Details)</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No available rooms in your allotted hostel.</p>
+  {% endif %}
+  <p><a href="{% url 'change_room' %}">Change Room</a></p>
+{% endblock %} {% endcomment %}
+
+<!-- available_rooms.html -->
+
+<!-- available_rooms.html -->
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+  <h1>Available Rooms</h1>
+  <p>Welcome, {{ allotment.student.registration_number }}!</p>
+  
+  <h2>Your Allotment Details</h2>
+  <p>Hostel: {{ allotment.allotted_hostel.name }}</p>
+  <p>Room: {% if allotment.allotted_room %}{{ allotment.allotted_room.room_number }}{% else %}Not Allotted{% endif %}</p>
+
+  <h2>Available Rooms</h2>
+  <ul>
+    {% for room in available_rooms %}
+      <li>
+        {% if room == allotment.allotted_room %}
+          <strong>{{ room.hostel.name }} - Room {{ room.room_number }} (Your Current Room)</strong>
+        {% else %}
+          {{ room.hostel.name }} - Room {{ room.room_number }} (Capacity: {{ room.capacity }})
+          <form method="post" action="{% url 'allot_room' room.id %}">
+            {% csrf_token %}
+            <button type="submit">Allot Room</button>
+          </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+ {% endcomment %}

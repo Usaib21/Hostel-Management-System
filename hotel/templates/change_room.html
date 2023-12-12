@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% if allotment %}
+    <h2>Your Allotment Details</h2>
+    Allotted Hostel: {{ allotment.allotted_hostel.name }}<br>
+    Allotted Room: {{ allotment.allotted_room.floor_number }}{{ allotment.allotted_room.room_number }}<br>
+    <br>
+    {% if allotment.allotted_room %}
+      <h2>Change Room</h2>
+      <form method="post">
+        {% csrf_token %}
+        <select name="new_room">
+          <option value="" selected disabled>Select a new room</option>
+          {% for room in allotment.allotted_hostel.hostelroom_set.all %}
+            {% if room.capacity > room.hostelallotmentregistration_set.count and room != allotment.allotted_room %}
+              <option value="{{ room.id }}">Room {{ room.floor_number }}{{ room.room_number }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <button type="submit">Change Room</button>
+      </form>
+    {% endif %}
+  {% else %}
+    <p>You have not been allotted a hostel.</p>
+  {% endif %}
+{% endblock %}
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+  {% if allotment %}
+    <h2>Your Allotment Details</h2>
+    Allotted Hostel: {{ allotment.allotted_hostel.name }}<br>
+    Allotted Room: {{ allotment.allotted_room.floor_number }}{{ allotment.allotted_room.room_number }}<br>
+    <br>
+    {% if available_floors %}
+      <h2>Available Floors for Room Change</h2>
+      <ul>
+        {% for floor in available_floors %}
+          <li>
+            <a href="{% url 'available_rooms_on_floor' allotment.allotted_hostel.id floor.floor_number %}">
+              Floor {{ floor.floor_number }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No available floors for room change.</p>
+    {% endif %}
+  {% else %}
+    <p>You have not been allotted a hostel.</p>
+  {% endif %}
+{% endblock %} {% endcomment %}
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+  {% if allotment %}
+    <h2>Your Allotment Details</h2>
+    <!-- Display user's allotment details here -->
+    Allotted Hostel: {{ allotment.allotted_hostel.name }}<br>
+    Allotted Room: {{ allotment.allotted_room.floor_number }}{{ allotment.allotted_room.room_number }}<br>
+    <!-- Add more details as needed -->
+    <br>
+    <p><a href="{% url 'available_floors' allotment.allotted_hostel.id %}">View Available Floors</a></p>
+    <h2>Available Rooms for Room Change</h2>
+    <ul>
+      {% for room in available_rooms %}
+        <li>
+          Room {{ room.floor_number }}{{ room.room_number }}
+          {% if room.capacity > room.hostelallotmentregistration_set.count %}
+            (<a href="#" onclick="showConfirmationModal('{{ room.id }}')">Change Room</a>)
+          {% else %}
+            (Full)
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have not been allotted a hostel.</p>
+  {% endif %}
+
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Room Change</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to change your room?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form id="change-room-form" action="{% url 'change_room' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="new_room" id="new_room_input">
+            <button type="submit" class="btn btn-primary">Change Room</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showConfirmationModal(roomId) {
+      const confirmationModal = document.getElementById('confirmationModal');
+      const newRoomInput = document.getElementById('new_room_input');
+
+      newRoomInput.value = roomId;
+      $(confirmationModal).modal('show');
+    }
+  </script>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+  <h1>Change Room</h1>
+  <p>Your current room: {{ allotment.allotted_room.floor_number }}{{ allotment.allotted_room.room_number }}</p>
+  <h2>Available Rooms:</h2>
+  <form method="post">
+    {% csrf_token %}
+    <select name="new_room">
+      {% for room in available_rooms %}
+        {% if room.capacity - allotment.allotted_room.allotmentregistration_set.count() > 0 %}
+          <option value="{{ room.id }}">Room: {{ room.floor_number }}{{ room.room_number }}</option>
+        {% endif %}
+      {% endfor %}
+    </select>
+    <button type="submit">Change Room</button>
+  </form>
+  <p><a href="{% url 'display_available_rooms' allotment.id %}">Back to Available Rooms</a></p>
+{% endblock %} {% endcomment %}

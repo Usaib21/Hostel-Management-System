@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %} 
+  <div class="container">
+    <h2 class="mt-4">Edit Attendance</h2>
+    <form method="post" class="mt-3" id="attendance-form">
+      {% csrf_token %}
+      {% include 'messages.html' %}
+      <div class="row">
+        <div class="col-md-6">
+          {{ edit_form.as_p }}
+          <button type="submit" class="btn btn-primary">Edit Attendance</button>
+          <!-- Include any other form fields related to editing here -->
+        </div>
+      </div>
+    </form>
+
+    <!-- Display the attendance records for the selected date -->
+    {% if attendance_records %}
+      <h3 class="mt-4">Attendance for {{ attendance_records.0.attendance.date }}</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Registration Number</th>
+              <th>Full Name</th>
+              <th>Present</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in attendance_records %}
+              <tr>
+                <td>{{ record.student.registration_number }}</td>
+                <td>{{ record.student.hostelallotmentregistration.full_name }}</td>
+                <td>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="form-{{ forloop.counter0 }}-is_present" {% if record.is_present %}checked{% endif %}>
+                    <input type="hidden" name="form-{{ forloop.counter0 }}-student_id" value="{{ record.student.id }}"> 
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="mb-3">
+        <label for="confirm_checkbox" class="form-check-label">Confirm Attendance:</label>
+        <input type="checkbox" id="confirm_checkbox" name="confirm_checkbox" class="form-check-input">
+      </div>
+    {% else %}
+      <p>No attendance records found for the selected date.</p>
+    {% endif %}
+    
+    <!-- "Save Attendance" button outside the form -->
+    <div class="mb-3">
+    <button type="submit" class="btn btn-primary" name="save_button" id="save_button">Save Attendance</button>
+    </div>
+
+    
+    <a href="{% url 'take_attendance' %}" class="btn btn-warning">Back to Take Attendance</a>
+  </div>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Find the form by its ID
+    const form = document.getElementById('attendance-form');
+  
+    // Find the "Save Attendance" button by its ID
+    const saveButton = document.getElementById('save_button');
+  
+    // Add a click event listener to the button
+    saveButton.addEventListener('click', function() {
+      // Trigger the form submission
+      form.submit();
+    });
+  });
+</script>
+
+    
+{% endblock %}

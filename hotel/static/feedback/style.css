@@ -1,0 +1,68 @@
+/* Add your custom styles here */
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.star {
+  font-size: 5rem; /* Adjust the size of stars as needed */
+  cursor: pointer;
+  margin: 5px;
+  color: #454343; /* Default star color */
+}
+
+.star::before {
+  content: '★'; /* Display star character instead of using Unicode */
+  color: #454343; /* Default star color */
+}
+
+.star.selected::before {
+  color: #f17508; /* Color for selected stars */
+}
+
+.container {
+  text-align: left;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 1.5rem; /* Adjust the font size as needed */
+  font-weight: bold;
+  color: #71b7e6; /* Adjust the color as needed */
+  margin-bottom: 20px;
+  position: relative;
+}
+
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  height: 3px;
+  width: 60px;
+  background: linear-gradient(135deg, #0056b3, #fc8003);
+}
+
+#complaint-text {
+  width: 100%;
+  height: 300px; /* Adjust the height as needed */
+  padding: 10px;
+  border: 1px solid #ccc; /* Add a border for the textarea */
+  border-radius: 5px; /* Rounded corners for the textarea */
+}
+
+#submit-button {
+  background: linear-gradient(135deg, #0394f5, #8fb659);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s; /* Smooth background transition on hover */
+}
+
+#submit-button:hover {
+  background: linear-gradient(135deg, #9b59b6, #71b7e6);
+}

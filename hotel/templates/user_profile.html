@@ -1,0 +1,12 @@
+<!-- User Details Container -->
+<div class="user-details">
+    <!-- Display User Name and Registration Number -->
+    <p>Name: {{ user.name }}</p>
+    <p>Registration Number: {{ user.registration_number }}</p>
+
+    <!-- Change Password Link -->
+    <a href="{% url 'password_change' %}">Change Password</a>
+
+    <!-- Logout Link -->
+    <a href="{% url 'logout' %}">Logout</a>
+</div>

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>HOSTEL Notifications</h1>
+  <ul class="list-group">
+    {% for notification in notifications %}
+    <li class="list-group-item">
+      {{ notification.created_at|date:"F d, Y" }}:
+      <a href="{{ notification.attachment.url }}" id="downloadLink{{ forloop.counter }}" download>{{ notification.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<script>
+  // Check if the link has been clicked before
+  function checkVisited(linkId) {
+    return localStorage.getItem(linkId) === 'visited';
+  }
+
+  // Mark the link as visited and change the color
+  function markVisited(linkId) {
+    localStorage.setItem(linkId, 'visited');
+    document.getElementById(linkId).style.color = '#008000'; // Change the color to green
+  }
+
+  // Attach event listeners to each download link
+  {% for notification in notifications %}
+  var linkId{{ forloop.counter }} = 'downloadLink{{ forloop.counter }}';
+  var link{{ forloop.counter }} = document.getElementById(linkId{{ forloop.counter }});
+
+  if (checkVisited(linkId{{ forloop.counter }})) {
+    link{{ forloop.counter }}.style.color = '#008000'; // Change the color to green if visited
+  }
+
+  link{{ forloop.counter }}.addEventListener('click', function() {
+    markVisited(linkId{{ forloop.counter }});
+  });
+  {% endfor %}
+</script>
+
+<style>
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Add an underline under the container title */
+  h1::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    height: 3px;
+    width: 80px;
+    background: linear-gradient(135deg, #0056b3, #fc8003);
+  }
+
+  /* Style for the link */
+  .list-group-item a {
+    color: #FF0000;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+</style>
+
+{% endblock %}
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Notifications</h1>
+  <ul class="list-group">
+    {% for notification in notifications %}
+    <li class="list-group-item">
+      <a href="{% url 'notification_detail' notification.id %}">{{ notification.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %} {% endcomment %}

@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'messages.html' %}
+    <title>Hostel Allotment Registration</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hostel/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Hostel Registration Form</h1>
+        <form method="post" class="hostel-allotment-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% comment %} <div class="form-messages"></div> {% endcomment %}
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="{{ form.terms_and_conditions.id_for_label }}" name="{{ form.terms_and_conditions.name }}" required>
+                <label class="form-check-label" for="{{ form.terms_and_conditions.id_for_label }}" required>
+                    I accept the  <a href="{% url 'terms_and_conditions_page' %}">terms and conditions</a>
+                </label>
+            </div>                       
+             <input type="submit" value="Submit">
+        </form>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+{% comment %} {% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'messages.html' %}
+    <title>Hostel Allotment Registration</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hostel/style.css' %}">
+</head>
+<body>
+    {% comment %} <center> {% endcomment %}
+        {% comment %} <h1>Hostel Allotment Registration</h1> {% endcomment %}
+    {% comment %} </center> {% endcomment %}
+    {% comment %} <form method="post" class="hostel-allotment-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-messages">
+            
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> {% endcomment %} 
+
+

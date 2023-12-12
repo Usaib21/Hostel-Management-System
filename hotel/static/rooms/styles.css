@@ -1,0 +1,73 @@
+/* styles.css */
+
+/* Style for the main container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.container h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #080707; /* Change the color as needed */
+    margin: 20px 0; /* Adjust margin as needed */
+    position: relative;
+    text-align: center; /* Center the text */
+  }
+  
+  .container h1::before {
+    content: "";
+    position: absolute;
+    left: 28%;
+    transform: translateX(-50%);
+    bottom: 0;
+    height: 3px;
+    width: 120px;
+    background: linear-gradient(135deg, #0056b3, #fc8003);
+    display: block;
+  }
+  
+/* Style for the room list */
+.room-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Style for each room item */
+.room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style for the room number */
+.room-number {
+    flex: 1; /* Occupy remaining space */
+}
+
+/* Style for the room actions (Select and Details) */
+.room-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Style for the "Select" button */
+.select-button {
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px; /* Corrected the property name */
+    cursor: pointer;
+}
+
+
+/* Style for the "(Details)" link */
+.details-link {
+    color: #057bfa;
+    text-decoration: none;
+    margin-left: 10px;
+}

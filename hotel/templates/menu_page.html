@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #menu {
+            text-align: center;
+            margin-top: -10px;
+            border-radius: 50px
+        }
+
+        #menu h1 {
+            font-size: 24px;
+            background: linear-gradient(135deg, #0056b3, #fc8003);
+            display: inline-block;
+            padding: 10px 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-top: -10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            vertical-align: top; /* Adjust vertical alignment to the top */
+        }
+
+        th {
+            background: linear-gradient(135deg, #9b59b6, #9b59b6);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Style the first column (Days) */
+        td:first-child {
+            font-weight: bold;
+            background: linear-gradient(135deg, #71b7e6, #71b7e6);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <h1>HOSTEL MESS MENU</h1>
+    </div>
+    <table>
+        <tr>
+            <th>Days</th>
+            <th>Breakfast</th>
+            <th>Lunch</th>
+            <th>Tea</th>
+            <th>Dinner</th>
+        </tr>
+        {% for menu_item in menu_items %}
+        <tr>
+            <td>{{ menu_item.day }}</td>
+            <td>{{ menu_item.breakfast|linebreaksbr }}</td>
+            <td>{{ menu_item.lunch|linebreaksbr }}</td>
+            <td>{{ menu_item.tea|linebreaksbr }}</td>
+            <td>{{ menu_item.dinner|linebreaksbr }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div id="framed-text">
+        <p><strong>Framed by Mess Committee</strong></p>
+    </div>
+</body>
+</html>

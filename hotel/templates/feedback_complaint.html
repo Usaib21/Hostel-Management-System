@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% include 'messages.html' %} 
+<link rel="stylesheet" type="text/css" href="{% static 'feedback/style.css' %}">
+<form method="post" action="{% url 'submit_feedback_complaint' %}">
+  {% csrf_token %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Feedback</h2>
+        <div class="stars" id="feedback-stars">
+          <span class="star" data-rating="1"></span>
+          <span class="star" data-rating="2"></span>
+          <span class="star" data-rating="3"></span>
+          <span class="star" data-rating="4"></span>
+          <span class="star" data-rating="5"></span>
+        </div>
+        <!-- Include an input field to store the selected rating -->
+        <input type="hidden" name="rating" id="selected-rating" value="0">
+      </div>
+      <div class="col-md-12">
+        <h2>Remarks</h2>
+        <textarea name="complaint-text" rows="12" style="width: 100%;" placeholder="Write your remarks here"></textarea>
+      </div>
+      <div class="col-md-12 text-center">
+        <button type="button" id="submit-button">Submit</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  document.querySelectorAll('.star').forEach(function (star) {
+    star.addEventListener('click', function () {
+      selectRating(this);
+    });
+  });
+  
+  function selectRating(selectedStar) {
+    var stars = document.querySelectorAll('.star');
+    var rating = parseInt(selectedStar.getAttribute('data-rating'));
+  
+    for (var i = 0; i < stars.length; i++) {
+      if (i < rating) {
+        stars[i].classList.add('selected');
+      } else {
+        stars[i].classList.remove('selected');
+      }
+    }
+  
+    // Set the selected rating in the hidden input field
+    document.getElementById('selected-rating').value = rating;
+  }
+  
+  document.getElementById('submit-button').addEventListener('click', function () {
+    submitFeedbackOrComplaint();
+  });
+  
+  function submitFeedbackOrComplaint() {
+    var rating = document.getElementById('selected-rating').value;
+    var complaintText = document.querySelector('[name="complaint-text"]').value;
+  
+    if (rating == 0 && complaintText.trim() === '') {
+      alert('Please provide either feedback or a complaint.');
+      return;
+    }
+  
+    // Submit the form
+    document.querySelector('form').submit();
+  }
+  
+</script>
+
+
+
+{% endblock %}

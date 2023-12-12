@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Objection Certificate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1px;
+            font-size: 25px;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        img {
+            width: 120px; /* Adjust the size as needed */
+            float: left;
+            margin-right: 10px;
+            margin-top: 30px;
+            margin-left: 35px;
+        }
+
+        hr {
+            background-color: #000;
+            height: 2px;
+            border: none;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 3px;
+            margin-top: 1px;
+        }
+
+        h4 {
+            text-align: center;
+            margin-top: 2px;
+            font-weight: 5px;
+            color: blue; 
+            font-style: verdana;
+            
+        }
+        h5 {
+            text-align: center;
+            margin-top: 2px;
+            
+        }
+
+        .details {
+            margin-bottom: 20px;
+        }
+
+        .details p {
+            margin-bottom: 10px;
+        }
+
+        .underline-dotted {
+            text-decoration: underline; /* Changed to underline */
+            color: blue; /* Text color changed to blue */
+        }
+        .underline-dottedd {
+            text-decoration: underline dotted; /* Changed to underline */
+        }
+        .signature {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        #pto {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="/static/images/iust_logo.jpeg" alt="University Logo">
+        <h1>Islamic University of Science and Technology</h1>
+        <h2>Awantipora, Kashmir</h2>
+        <h4 style="font-family: 'Times New Roman', sans-serif;">"Office of the Provost, {{ hostel_name }} Hostel"</h4>
+        <hr>
+        <h1 class="underline-dottedd">No Objection Form - (HOSTELS)</h1>
+        <h5 style="text-decoration: underline;">"September 2022 Onwards"</h5>
+
+
+        <div class="details">
+            <p>1. Name of the Student:
+                <span class="underline-dotted">{{ full_name }}.</span>
+            </p>
+            <p>2. Parent/Guardian's Name:
+                <span class="underline-dotted">{{ father_name }}.</span>
+            </p>
+            <p>3. Address:
+                <span class="underline-dotted">{{ district }}, {{ state }}.</span>
+            </p>
+            <p>4. University Registration number:
+                <span class="underline-dotted">{{ registration_number }}.</span>
+            </p>
+            <p>5. Department-Course:
+                <span class="underline-dotted">{{ department }} - {{ course }}.</span>
+            </p>
+            <p>6. Contact Number:
+                <span class="underline-dotted">{{ phone }}.</span>
+            </p>
+            <p>7. Allotted room number:
+                <span class="underline-dotted">{{ room_number }}.</span>
+            </p>
+            <p>8. Pending dues (if any):
+                <span class="underline-dotted">NILL.</span>
+            </p>
+            <p>9. Date of cancellation: .............................................
+                <span class="underline-dotted">{{ cancel_hostel_date }}.</span>
+            </p>
+        </div>
+
+        <div class="signature">
+            <p>Signature of Student: ...........................................................</p>
+        </div>
+    </div>
+
+    <div id="pto">
+        <p>P.T.O</p>
+    </div>
+</body>
+
+</html>
+

@@ -1,0 +1,60 @@
+#changelist-filter {
+    display: flex;
+    align-items: center;
+}
+
+#changelist-filter .gender {
+    margin-left: auto;
+}
+
+#changelist-filter h3 {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#changelist-filter .gender label, #changelist-filter .gender select {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#changelist {
+    width: 100%;
+    box-sizing: border-box;
+}
+/* from django.db import migrations
+
+def create_hostels(apps, schema_editor):
+    Hostel = apps.get_model('room', 'Hostel')
+    Hostel.objects.create(name='BH1', capacity=300)
+    Hostel.objects.create(name='GH1', capacity=300)
+    Hostel.objects.create(name='BH2', capacity=300)
+    Hostel.objects.create(name='GH2', capacity=300)
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('room', '0002_hostel_receiptnumbercounter_customuser_date_and_more'),  # Replace '000y_previous_migration' with the previous migration's name
+    ]
+
+    operations = [
+        migrations.RunPython(create_hostels),
+    ] */
+
+
+
+    /* from django.db import migrations
+
+
+def create_initial_counter(apps, schema_editor):
+        ReceiptNumberCounter = apps.get_model('room', 'ReceiptNumberCounter')
+        ReceiptNumberCounter.objects.create(counter=1)
+    
+class Migration(migrations.Migration):
+    
+        dependencies = [
+            ('room', '0003_auto_20230828_1538'),# Update this with the actual dependency
+        ]
+    
+        operations = [
+            migrations.RunPython(create_initial_counter),
+        ]  */

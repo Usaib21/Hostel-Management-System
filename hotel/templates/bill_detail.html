@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bill-details">
+  <div class="bill-header">
+    <h3 class="header-text">Islamic University of Science and Technology, Awantipora, Kashmir</h3>
+    <h4>Hostel Receipt</h4>
+    <p>Receipt Number: {{ bill.receipt_number }}</p>
+  </div>
+  <div class="student-info">
+    <div class="info-box">
+      <p class="box-content">Full Name: {{ full_name }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Father's Name: {{ father_name }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Registration Number: {{ bill.student.registration_number }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Course: {{ course }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Bill Generation Date: {{ bill.generated_date }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Stayed Months: {{ bill.months_stayed }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">
+        Status: <span class="bill-status {% if bill.is_paid %}paid{% else %}pending{% endif %}">
+          {% if bill.is_paid %}Paid{% else %}Pending{% endif %}
+        </span>
+      </p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Amount: {{ bill.amount }} INR</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Amount in Words: {{ bill_amount_words }}</p>
+    </div>    
+    <div class="info-box">
+      <p class="box-content">Account Number: xxxxxxxxxxx1234</p>
+    </div>
+  </div>
+  <div class="seal-signature">
+    <p>Seal and Signature</p>
+  </div>
+</div>
+<div class="download-link">
+  <a href="{% url 'generate_pdf' bill.id %}" class="btn btn-primary">Download PDF</a>
+</div>
+<style>
+  .bill-details {
+    border: 3px solid black;
+    padding: 10px;
+    width: 80%;
+    margin: 20px auto;
+  }
+
+  .bill-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .info-box {
+    display: inline-block;
+    width: 48%;
+    padding: 4px;
+    border: 1px solid #ccc;
+    margin: 4px;
+  }
+
+  .box-content {
+    font-weight: normal; /* Remove font-weight if not needed */
+    font-size: 16px; /* Set the desired font size, e.g., 12px */
+  }
+
+  .seal-signature {
+    text-align: right;
+  }
+
+  /* Style for bill status */
+  .bill-status {
+    font-weight: bold;
+    {% if bill.is_paid %}
+      color: green;
+    {% else %}
+      color: red;
+    {% endif %}
+  }
+</style>
+{% endblock %}
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<!-- Your existing content -->
+
+{% comment %} <div class="bill-container">
+  <h2>Hostel Bill</h2> 
+  <div class="bill-details">
+    <div class="bill-header">
+      <h3>Bill Details</h3>
+      <p>Bill Number: {{ bill.receipt_number }}</p>
+    </div>
+    <div class="student-info">
+      <p>Full Name: {{ bill.student.full_name }}</p>
+      <p>Registration Number: {{ bill.student.registration_number }}</p>
+      <p>Bill Generation Date: {{ bill.generated_date }}</p>
+      <p>Stayed Months: {{ bill.months_stayed }}</p>
+      <p>Status: {% if bill.is_paid %}Paid{% else %}Pending{% endif %}</p>
+      <p>Amount: {{ bill.amount }} INR</p>
+      <p>Amount in Words: <!-- Add logic to convert amount to words --></p>
+    </div>
+    <div class="seal-signature">
+      <p>Seal and Signature</p>
+    </div>
+  </div>
+{% comment %} </div> 
+
+<style>
+  .bill-container {
+    margin: 20px auto;
+    width: 80%;
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+
+  .bill-details {
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+
+  .bill-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .student-info {
+    margin-bottom: 20px;
+  }
+
+  .seal-signature {
+    text-align: right;
+  }
+</style>
+
+{% endblock %} {% endcomment %}

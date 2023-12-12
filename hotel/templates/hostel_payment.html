@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Your existing content -->
+
+<h2>Your Hostel Bills</h2>
+{% if bills %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Serial Number</th>
+      <th scope="col">Receipt Number</th>
+      <th>Months Stayed</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Bill From</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for bill in bills %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td><a href="{% url 'bill_detail' bill.pk %}">{{ bill.receipt_number }}</a></td>
+      <td>{{ bill.months_stayed }}</td>
+      <td>{{ bill.amount }}</td>
+      <td>{{ bill.generated_date }}</td>
+      <td>{% if bill.is_paid %}<span class="badge badge-status paid">Paid</span>{% else %}<span class="badge badge-status pending">Pending</span>{% endif %}</td>
+      <td>
+        {% if not bill.is_paid %}
+        <a href="#" class="btn btn-primary">Pay Now</a>
+        {% else %}
+        <a href="{% url 'bill_detail' bill.pk %}" class="btn btn-secondary">View Bill</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No hostel bills available.</p>
+{% endif %}
+
+<style>
+  .badge-status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  .badge-status.pending {
+    background-color: red;
+    color: white;
+  }
+
+  .badge-status.paid {
+    background-color: green;
+    color: white;
+  }
+</style>
+
+{% endblock %}
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+<!-- Your existing content -->
+
+<h2>Your Hostel Bills</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Serial Number</th>
+      <th scope="col">Receipt Number</th>
+      <th>Months Stayed</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Generated Date</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for bill in bills %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td><a href="{% url 'bill_detail' bill.pk %}">{{ bill.receipt_number }}</a></td>
+      <td>{{ bill.months_stayed }}</td>
+      <td>{{ bill.amount }}</td>
+      <td>{{ bill.generated_date }}</td>
+      <td>
+        {% if bill.is_paid %}
+          <span class="badge badge-success">Paid</span>
+        {% else %}
+          <span class="badge badge-dark">Pending</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if not bill.is_paid %}
+          <a href="#" class="btn btn-primary">Pay Now</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} {% endcomment %}

@@ -1,0 +1,521 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% include 'messages.html' %} 
+  <div class="container mt-4">
+    <h2>Take Attendance</h2>
+    <form method="post" class="mt-3" id="attendanceForm">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="attendance_date" class="form-label"><strong>Select Date:</strong></label>
+        <input type="date" id="attendance_date" name="attendance_date" value="{{ today }}" class="form-control" required>
+      </div>
+      {% csrf_token %}
+      <!-- Bootstrap Dropdowns for Hostel and Floor -->
+      <div class="form-group">
+        <label for="hostelDropdown"><strong>Select Hostel:</strong></label>
+        <select class="form-control" id="hostelDropdown">
+          <option value="" disabled selected>Select a Hostel</option>
+          <!-- Options for hostels will be added dynamically -->
+        </select>
+      </div>
+
+      <div class="form-group" id="floorDropdownGroup" style="display: none;">
+        <label for="floorDropdown"><strong>Select Floor:</strong></label>
+        <select class="form-control" id="floorDropdown">
+          <!-- Options for floors will be added dynamically -->
+        </select>
+      </div>
+
+      <!-- Display selected hostel and floor -->
+      <p id="selectedInfo" class="font-weight-bold mt-3"></p>
+
+      <!-- Display student details dynamically -->
+      <p id="studentsInfo" class="font-weight-bold mt-3"></p>
+      <table id="studentList" class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Room details</th>
+            <th>Registration Number</th>
+            <th>Full Name</th>
+            <th>Present</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="mb-3">
+        <label for="confirm_checkbox" class="form-check-label"><strong>Confirm Attendance:</strong></label>
+        <input type="checkbox" id="confirm_checkbox" name="confirm_checkbox" class="form-check-input" required>
+      </div>
+      <button type="submit" class="btn btn-primary" id="uploadAttendanceBtn">Upload Attendance</button>
+      <a href="{% url 'edit_attendance' %}" class="btn btn-warning">Edit Attendance</a>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <!-- Your existing HTML code -->
+
+  <!-- take_attendance.html -->
+
+  {% load static %}
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+
+  <script>
+    $(document).ready(function () {
+      // Store checkbox states in a dictionary
+      const checkboxStates = {};
+
+      function loadHostels() {
+        const hostelDropdown = document.getElementById("hostelDropdown");
+        const floorDropdownGroup = document.getElementById("floorDropdownGroup");
+
+        // Clear floor dropdown initially
+        floorDropdownGroup.style.display = "none";
+
+        hostelDropdown.innerHTML = "<option value='' disabled selected>Select a Hostel</option>";
+
+        return fetch("/get_available_hostels/")
+          .then(response => response.json())
+          .then(data => {
+            data.hostels.forEach(hostel => {
+              const option = document.createElement("option");
+              option.value = hostel.id;
+              option.textContent = hostel.name;
+              hostelDropdown.appendChild(option);
+            });
+
+            hostelDropdown.addEventListener("change", function () {
+              const selectedHostelId = this.value;
+              console.log("Selected Hostel ID:", selectedHostelId);
+              loadFloors(selectedHostelId);
+
+              // Show floor dropdown only when a hostel is selected
+              floorDropdownGroup.style.display = selectedHostelId ? "block" : "none";
+            });
+          })
+          .catch(error => console.error("Error:", error));
+      }
+
+      function loadFloors(hostelId) {
+        const floorDropdown = document.getElementById("floorDropdown");
+      
+        if (hostelId) {
+          floorDropdown.innerHTML = "<option value=''>Select a Floor</option>";
+      
+          fetch(`/available_floors/${hostelId}/`)
+            .then(response => response.json())
+            .then(data => {
+              data.floors.forEach(floor => {
+                const option = document.createElement("option");
+                option.value = floor;
+                option.textContent = `Floor ${floor}`;
+                floorDropdown.appendChild(option);
+              });
+            })
+            .catch(error => console.error("Error:", error));
+        }
+      }
+      // Add event listener for the floor dropdown
+      const floorDropdown = document.getElementById("floorDropdown");
+      floorDropdown.addEventListener("change", function () {
+        const selectedHostelId = document.getElementById("hostelDropdown").value;
+        const selectedFloor = this.value;
+
+        if (selectedHostelId && selectedFloor) {
+          loadStudents(selectedHostelId, selectedFloor);
+        }
+      });
+
+      function loadStudents(hostelId, floorNumber) {
+        const studentsInfo = document.getElementById("studentsInfo");
+        studentsInfo.textContent = "Loading students...";
+      
+        return fetch(`/available_students_on_floor/${hostelId}/${floorNumber}/`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("Data from server:", data);
+      
+            studentsInfo.textContent = `List of Students of ${data.hostel_name} on Floor ${data.floor_name}:`;
+      
+            const studentList = document.getElementById("studentList").getElementsByTagName("tbody")[0];
+            studentList.innerHTML = "";
+      
+            if (data.students.length > 0) {
+              data.students.forEach(student => {
+                const row = document.createElement("tr");
+                const checkboxId = `student_present_${student.registration_number}`;
+
+                // Create a checkbox and set its state based on the stored value
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = checkboxId;
+                checkbox.checked = checkboxStates[checkboxId] || false;
+
+                const roomDetailsCell = document.createElement("td");
+                roomDetailsCell.textContent = student.details;
+
+                const registrationNumberCell = document.createElement("td");
+                registrationNumberCell.textContent = student.registration_number;
+
+                const fullNameCell = document.createElement("td");
+                fullNameCell.textContent = student.full_name;
+
+                const presentCell = document.createElement("td");
+                presentCell.appendChild(checkbox);
+
+                row.appendChild(roomDetailsCell);
+                row.appendChild(registrationNumberCell);
+                row.appendChild(fullNameCell);
+                row.appendChild(presentCell);
+
+                studentList.appendChild(row);
+
+                // Update the checkbox state when it is clicked
+                checkbox.addEventListener("change", function () {
+                  checkboxStates[checkboxId] = this.checked;
+                });
+              });
+            } else {
+              studentsInfo.textContent = "No students available on this floor.";
+            }
+          })
+          .catch(error => {
+            console.error("Error loading students:", error);
+            studentsInfo.textContent = "Error loading students. Please try again.";
+          });
+      }
+
+      function displayErrorMessage(message) {
+        const errorMessage = document.getElementById("errorMessage");
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+      }
+
+      // ...
+
+      function saveAttendanceForAllFloors(selectedHostelId, selectedFloor) {
+        const attendanceDate = document.getElementById("attendance_date").value;
+        const checkboxStatesArray = Object.entries(checkboxStates).map(([key, value]) => ({
+          registration_number: key.split("_").slice(2).join("_"),
+          present: value,
+        }));
+
+        const attendanceData = {
+          selectedHostelId,
+          selectedFloor,
+          checkboxStates: checkboxStatesArray,
+          attendanceDate,
+        };
+
+        console.log("Attendance Data:", attendanceData);
+
+        return fetch("/save_attendance/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"), // Use a function to get the CSRF token dynamically
+          },
+          body: JSON.stringify(attendanceData),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("Response from server:", data);
+            window.location.reload(true); // Reload the page after successful attendance upload
+          })
+          .catch(error => {
+            console.error("Error saving attendance:", error);
+            displayErrorMessage("Error saving attendance. Please try again.");
+          });
+      }
+
+      // ...
+
+      // Function to get CSRF token from cookies
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Check if this cookie string begins with the name we want
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // Load hostels initially
+      loadHostels();
+
+      // Add event listener to handle form submission
+      document.getElementById("uploadAttendanceBtn").addEventListener("click", function (event) {
+        event.preventDefault();
+
+        // Get the selected hostel ID
+        const selectedHostelId = document.getElementById("hostelDropdown").value;
+
+        // Check if a hostel is selected
+        if (!selectedHostelId) {
+          displayErrorMessage("Please select a hostel.");
+          return;
+        }
+
+        // Get the selected floor
+        const selectedFloor = document.getElementById("floorDropdown").value;
+
+        // Check if a floor is selected
+        if (!selectedFloor) {
+          displayErrorMessage("Please select a floor.");
+          return;
+        }
+
+        // Load students and then save attendance records for all floors
+        loadStudents(selectedHostelId, selectedFloor)
+          .then(() => saveAttendanceForAllFloors(selectedHostelId, selectedFloor))
+          .catch(error => {
+            // Handle the error and display a message
+            displayErrorMessage(`Error loading/saving students: ${error.message}`);
+          });
+      });
+    });
+  </script>
+  <style>
+    /* Custom CSS styling */
+    .container {
+      max-width: 1050px;
+      margin-top: 2rem;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
+      color: linear-gradient(135deg, #71b7e6, #9b59b6);
+      margin-bottom: 20px;
+    }
+    
+    /* Add an underline under the container title */
+    h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      height: 3px;
+      width: 45px;
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    }
+  
+    .form-label {
+      font-weight: bold;
+    }
+  
+    .table th {
+      font-weight: bold;
+      background-color: #f2f2f2;
+    }
+  
+    .table td {
+      vertical-align: middle;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #9b59b6, #71b7e6);
+    }
+  </style>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block content %}
+{% include 'messages.html' %} 
+  <div class="container mt-4">
+    <h2>Take Attendance</h2>
+    <form method="post" class="mt-3">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="attendance_date" class="form-label">Select Date:</label>
+        <input type="date" id="attendance_date" name="attendance_date" value="{{ today }}" class="form-control" required>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Registration Number</th>
+            <th>Full Name</th>
+            <th>Present</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reg_number, full_name in student_data %}
+          <tr>
+            <td>{{ reg_number }}</td>
+            <td>{{ full_name }}</td>
+            {% comment %} <td><input type="checkbox" name="student_present_{{ reg_number }}" value="on"></td> {% endcomment %}
+            {% comment %} <td>
+            <div class="form-check form-switch">
+              <input type="checkbox" class="form-check-input" name="student_present_{{ reg_number }}" value="on" id="student_present_{{ reg_number }}">
+              <label class="form-check-label" for="student_present_{{ reg_number }}"></label>
+            </td>
+            </div>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="mb-3">
+        <label for="confirm_checkbox" class="form-check-label">Confirm Attendance:</label>
+        <input type="checkbox" id="confirm_checkbox" name="confirm_checkbox" class="form-check-input" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Upload Attendance</button>
+      <a href="{% url 'edit_attendance' %}" class="btn btn-warning">Edit Attendance</a>
+    </form>
+  </div>
+  <style>
+    /* Custom CSS styling */
+    .container {
+      max-width: 1000px;
+      margin-top: 2rem;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
+      color: linear-gradient(135deg, #71b7e6, #9b59b6);
+      margin-bottom: 20px;
+    }
+    
+    /* Add an underline under the container title */
+    h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      height: 3px;
+      width: 30px;
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    }
+  
+    .form-label {
+      font-weight: bold;
+    }
+  
+    .table th {
+      font-weight: bold;
+      background-color: #f2f2f2;
+    }
+  
+    .table td {
+      vertical-align: middle;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #9b59b6, #71b7e6);
+    }
+  </style>
+  
+  
+{% endblock %} {% endcomment %} 
+
+
+
+
+
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="mt-4">Take Attendance</h2>
+    <form method="post" class="mt-3">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="attendance_date" class="form-label">Select Date:</label>
+        <input type="date" id="attendance_date" name="attendance_date" value="{{ today }}" class="form-control">
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Registration Number</th>
+            <th>Full Name</th>
+            <th>Present</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students %}
+            <tr>
+              <td>{{ student.registration_number }}</td>
+              <td>{{ student.get_full_name }}</td>
+              <td><input type="checkbox" name="student_checkbox" value="{{ student.id }}"></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="mb-3">
+        <label for="confirm_checkbox" class="form-check-label">Confirm Attendance:</label>
+        <input type="checkbox" id="confirm_checkbox" name="confirm_checkbox" class="form-check-input">
+      </div>
+      <button type="submit" class="btn btn-primary">Upload Attendance</button>
+    </form>
+  </div>
+
+  <style>
+    /* Add your custom CSS styling here */
+    .container {
+      max-width: 600px;
+    }
+    .mt-4 {
+      margin-top: 1.5rem;
+    }
+    .mt-3 {
+      margin-top: 1rem;
+    }
+    .mb-3 {
+      margin-bottom: 1rem;
+    }
+  </style>
+{% endblock %} {% endcomment %}
+

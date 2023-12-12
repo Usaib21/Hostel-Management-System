@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bill-details">
+  <div class="bill-header">
+    <h3 class="header-text">Islamic University of Science and Technology, Awantipora, Kashmir</h3>
+    <h4>Mess Receipt</h4>
+    <p>Receipt Number: {{ mess_payment.receipt_number }}</p>
+  </div>
+  <div class="student-info">
+    <div class="info-box">
+      <p class="box-content">Full Name: {{ full_name }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Registration Number: {{ mess_payment.student.registration_number }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Bill Generation Date: {{ mess_payment.generated_date }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Month: {{ mess_payment.months_name }}</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">
+        Status: <span class="bill-status {% if mess_payment.status %}paid{% else %}pending{% endif %}">
+          {% if mess_payment.status %}Paid{% else %}Pending{% endif %}
+        </span>
+      </p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Amount: {{ mess_payment.amount }} INR</p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Amount in Words: <!-- Add logic to convert amount to words --></p>
+    </div>
+    <div class="info-box">
+      <p class="box-content">Account Number: xxxxxxxxxxx1234</p>
+    </div>
+  </div>
+  <div class="seal-signature">
+    <p>Seal and Signature</p>
+  </div>
+</div>
+<div class="download-link">
+  <a href="{% url 'download_mess_bill' mess_payment.id %}" class="btn btn-primary">Download PDF</a>
+</div>
+
+<style>
+  .bill-details {
+    border: 3px solid black;
+    padding: 10px;
+    width: 80%;
+    margin: 20px auto;
+  }
+
+  .bill-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .info-box {
+    display: inline-block;
+    width: 48%;
+    padding: 4px;
+    border: 1px solid #ccc;
+    margin: 4px;
+  }
+
+  .box-content {
+    font-weight: normal; /* Remove font-weight if not needed */
+    font-size: 16px; /* Set the desired font size, e.g., 12px */
+  }
+
+  .seal-signature {
+    text-align: right;
+  }
+
+  /* Style for bill status */
+  .bill-status {
+    font-weight: bold;
+    {% if mess_payment.status %}
+      color: green;
+    {% else %}
+      color: red;
+    {% endif %}
+  }
+</style>
+{% endblock %}
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% comment %} {% block content %} {% endcomment %}
+{% comment %} <div class="bill-container">
+  <h2>Mess Bill</h2>
+  <div class="bill-details">
+    <div class="bill-header">
+      <h3>Bill Details</h3>
+      <p>Bill Number: {{ mess_payment.receipt_number }}</p>
+    </div>
+    <div class="student-info">
+      <p>Full Name: {{ mess_payment.student.full_name }}</p>
+      <p>Registration Number: {{ mess_payment.student.registration_number }}</p>
+      <p>Bill Generation Date: {{ mess_payment.generated_date }}</p>
+      <p>Month: {{ mess_payment.months_name }}</p>
+      <p>Status: <span class="bill-status {% if mess_payment.status %}paid{% else %}pending{% endif %}">{% if mess_payment.status %}Paid{% else %}Pending{% endif %}</span></p>
+      <p>Amount: {{ mess_payment.amount }} INR</p>
+      <p>Amount in Words: <!-- Add logic to convert amount to words --></p>
+    </div>
+    <div class="seal-signature">
+      <p>Seal and Signature</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bill-container {
+    margin: 20px auto;
+    width: 80%;
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+
+  .bill-details {
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+
+  .bill-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .student-info {
+    margin-bottom: 20px;
+  }
+
+  .seal-signature {
+    text-align: right;
+  }
+
+  /* Style for bill status */
+  .bill-status {
+    font-weight: bold;
+    {% if mess_payment.status %}
+      color: green;
+    {% else %}
+      color: red;
+    {% endif %}
+  }
+</style>
+
+{% endblock %} {% endcomment %} 

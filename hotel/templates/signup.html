@@ -1,0 +1,471 @@
+{% comment %} {% comment %} {% extends 'base.html' %} 
+
+{% block title %}Signup Page{% endblock title %}
+
+{% block content %} {% endcomment %}
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Design by foolishdeveloper.com -->
+    <title>Signup Page</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/static/images/suimg2.jpg'); /* Replace with the correct path to your image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%, 0); /* Updated to bring the background down */
+            left: 50%;
+            bottom: 20%; /* Adjusted to position the background */
+        }
+
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .shape:first-child {
+            background: linear-gradient(#1845ad, #23a2f6);
+            left: -80px;
+            top: -80px;
+        }
+
+        .shape:last-child {
+            background: linear-gradient(to right, #ff512f, #f09819);
+            right: -30px;
+            bottom: -80px;
+        }
+
+        form {
+            height: 600px;
+            width: 450px;
+            background-color: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            transform: translate(-50%, 0); /* Updated to bring the form down */
+            bottom: 10%; /* Adjusted to position the form */
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 35px;
+        }
+
+        form * {
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+            margin-bottom: 30px; /* Added margin to separate the heading from inputs */
+        }
+
+        label {
+            display: block;
+            margin-top: 10px; /* Adjusted margin for consistent spacing */
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        input {
+            display: block;
+            height: 40px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 2px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        ::placeholder {
+            color: #e5e5e5;
+        }
+
+        button {
+            margin-top: 14px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .social {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center; /* Center the social icons horizontally */
+        }
+
+        .social div {
+            background: red;
+            width: 150px;
+            border-radius: 3px;
+            padding: 5px 10px 10px 5px;
+            background-color: rgba(255, 255, 255, 0.27);
+            color: #eaf0fb;
+            text-align: center;
+            margin: 0 10px; /* Added margin to separate social icons */
+        }
+
+        .social div:hover {
+            background-color: rgba(255, 255, 255, 0.47);
+        }
+
+        .social .fb {
+            margin-left: 25px;
+        }
+
+        .social i {
+            margin-right: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    {% include 'messages.html' %} {% endcomment %}
+    {% comment %} <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div> {% endcomment %}
+   {% comment %} <form action="" method="post">
+        {% csrf_token %}
+
+        <h3>Signup Here</h3>
+
+        <label for="registration-number">Registration Number:</label>
+        <input type="text" id="registration-number" name="registration-number" placeholder="registration-number" required>
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Enter Your Email" name="email" id="email" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required>
+
+        <label for="password1">Password</label>
+        <input type="password" placeholder="Password" id="password1" name="password1" required>
+
+        <label for="password2">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" id="password2" name="password2" required>
+
+        <button type="submit">Signup</button>
+
+        <a href="{% url 'login' %}">I already have an account</a>
+    </form>
+</body>
+</html>
+{% comment %} {% endblock content %} {% endcomment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'messages.html' %} 
+    <!-- Design by foolishdeveloper.com -->
+    <title>Signup Page</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/static/images/smoke-376543.jpg'); /* Replace with the correct path to your image */
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            
+        }
+
+        {% comment %} .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%, 0); /* Updated to bring the background down */
+            left: 50%;
+            bottom: 20%; /* Adjusted to position the background */
+        } {% endcomment %}
+
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .shape:first-child {
+            background: linear-gradient(#1845ad, #23a2f6);
+            left: -80px;
+            top: -80px;
+        }
+
+        .shape:last-child {
+            background: linear-gradient(to right, #ff512f, #f09819);
+            right: -30px;
+            bottom: -80px;
+        }
+
+        form {
+            height: 580px;
+            width: 450px;
+            background-color: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            transform: translate(-50%, 0); /* Updated to bring the form down */
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 35px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        form * {
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+
+        form h3 {
+            font-size: 32px;
+            font-weight: strong;
+            line-height: 42px;
+            text-align: center;
+            margin-bottom: 3px; /* Added margin to separate the heading from inputs */
+            text-align: center; /* Center the heading horizontally */
+            gn: center; /* Center the heading horizontally */
+            margin-bottom: 20px; /* Add margin at the bottom to separate it from the inputs */
+            position: absolute; /* Set the heading to absolute position */
+            top: 0; /* Position the heading at the top of the form */
+            left: 50%; /* Center the heading horizontally */
+            transform: translateX(-50%); /* Center the heading using translate */
+            width: 100%; /* Make the heading width 100% to fit the form container */
+            {% comment %} color: #000; {% endcomment %}
+            color: #fff;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px; /* Adjusted margin for consistent spacing */
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        label[for="password2"] {
+            margin-bottom: 10px;
+        }
+        #password2 {
+            margin-bottom: 20px;
+        }
+       
+
+        input {
+            display: block;
+            height: 40px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 2px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        ::placeholder {
+            color: #e5e5e5;
+        }
+
+        button {
+            margin-top: 14px;
+            width: 100%;
+            background-color: Tomato;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 25px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            
+        }
+        .password-toggle-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: black;
+        }  
+
+        .social {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center; /* Center the social icons horizontally */
+        }
+
+        .social div {
+            background: red;
+            width: 150px;
+            border-radius: 3px;
+            padding: 5px 10px 10px 5px;
+            background-color: rgba(255, 255, 255, 0.27);
+            color: #eaf0fb;
+            text-align: center;
+            margin: 0 10px; /* Added margin to separate social icons */
+        }
+
+        .social div:hover {
+            background-color: rgba(255, 255, 255, 0.47);
+        }
+
+        .social .fb {
+            margin-left: 25px;
+        }
+
+        .social i {
+            margin-right: 4px;
+        }
+
+        .error-msg {
+            color: red;
+            margin-top: 10px;
+        }
+        .alert {
+            position:absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999; /* Make sure the messages are displayed above other elements */
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    {% comment %} <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div> {% endcomment %}
+
+     <!-- Add this block to display the success message -->
+    {% comment %} {% if messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %} {% endcomment %}
+    
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <h3>SIGN UP</h3>
+
+        <label for="registration-number">Registration Number:</label>
+        <input type="text" id="registration-number" name="registration-number" placeholder="Enter Registration Number" required>
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Enter Your Email" name="email" id="email" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required>
+{% comment %} 
+        <label for="password1">Password</label>
+        <input type="password" placeholder="Password" id="password1" name="password1" required> {% endcomment %}
+        <label for="password">Password</label>
+        <div style="position: relative;">
+          <input type="password" placeholder="Password" id="password" name="password1">
+          <i class="fas fa-eye password-toggle-icon" id="password-toggle"></i>
+        </div>
+
+        <label for="password2">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" id="password2" name="password2" required>
+
+        <button type="submit">Signup</button>
+
+        <a href="{% url 'login' %}">I already have an account</a>
+
+        <!-- Display error message if signup failed -->
+        {% if error %}
+            <p class="error-msg">{{ error }}</p>
+        {% endif %}
+    </form>
+    <script>
+        // JavaScript code to toggle password visibility
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('password-toggle');
+  
+        passwordToggle.addEventListener('click', function() {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordToggle.classList.remove('fa-eye');
+            passwordToggle.classList.add('fa-eye-slash');
+          } else {
+            passwordInput.type = 'password';
+            passwordToggle.classList.remove('fa-eye-slash');
+            passwordToggle.classList.add('fa-eye');
+          }
+        });
+      </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Terms and Conditions</h1>
+    <div class="terms">
+        <p class="mb-3">Here are the terms and conditions:</p>
+        <ul>
+            <li>After submitting the form, your hostel allotment request will be sent to the administrator.</li>
+            <li>Upon approval by the administrator, your hostel and mess bills will be generated from the approval date onwards. You can join the hostel immediately.</li>
+            <li>It is mandatory to adhere to the hostel rules and regulations.</li>
+            <li>Any violation of hostel policies may result in disciplinary action.</li>
+            <li>Residents are responsible for the cleanliness and upkeep of their assigned rooms.</li>
+            <!-- Add more terms here -->
+        </ul>
+    </div>
+
+    <!-- Back button to go to hostel allotment registration -->
+    <a href="{% url 'hostel_allotment_registration' %}" class="btn btn-primary mt-4">Back</a>
+</div>
+
+<style>
+    .terms {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        color: #007bff;
+    }
+</style>
+{% endblock %}

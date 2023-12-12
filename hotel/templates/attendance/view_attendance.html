@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container mt-4">
+    <h2>View Attendance</h2>
+    <form method="get" class="row g-3 mt-4">
+      <div class="col-md-4">
+        <label for="{{ form.selected_month.id_for_label }}" class="form-label">Select Month</label>
+        {{ form.selected_month }}
+      </div>
+      <div class="col-md-4">
+        <label for="{{ form.selected_year.id_for_label }}" class="form-label">Select Year</label>
+        {{ form.selected_year }}
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary mt-4">Get Details</button>
+      </div>
+    </form>
+
+    {% if selected_month and selected_year %}
+      <h3 class="mt-4">Attendance Details for {{ selected_month }}_{{ selected_year }}</h3>
+
+      <!-- Display the attendance records -->
+      {% if attendance_records %}
+        <div class="table-responsive">
+          <table class="table table-bordered mt-3">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Attendance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record in attendance_records %}
+                <tr>
+                  <td>{{ record.attendance.date|date:"F d, Y" }}</td>
+                  <td>
+                    {% if record.is_present %}
+                      <span class="text-success">Present</span>
+                    {% else %}
+                      <span class="text-danger">Absent</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="mt-3">No attendance records found for the selected month and year.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+  <style>
+    /* Style for h3 headings */
+    h2, h3 {
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
+      color: linear-gradient(135deg, #71b7e6, #9b59b6);
+      margin-bottom: 20px;
+    }
+
+    /* Add an underline under the container title */
+    h2::before, h3::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      height: 3px;
+      width: 50px;
+      background: linear-gradient(135deg, #0056b3, #fc8003);
+    }
+
+    /* Style for the "Get Details" button */
+    button.btn-primary {
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      position: absolute; /* Add this line */
+      top: 60px;
+    }
+
+    button.btn-primary:hover {
+      background: linear-gradient(135deg, #9b59b6, #71b7e6);
+    }
+
+    /* Style for the attendance table */
+    .table {
+      margin-top: 20px;
+    }
+
+    /* Style for table header */
+    .table th {
+      background-color: #f2f2f2;
+    }
+
+    /* Style for table rows */
+    .table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* Style for "Present" and "Absent" text in the table */
+    .text-success {
+      color: green;
+      font-weight: bold;
+    }
+
+    .text-danger {
+      color: red;
+      font-weight: bold;
+    }
+
+    /* Optional: Add spacing to the form fields */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    /* Style for the form labels */
+    .form-label {
+      font-weight: bold;
+    }
+  </style>
+{% endblock %}
+
+
+
+
+
+
+{% comment %} {% extends "base.html" %}
+{% block content %}
+  <div class="container mt-4">
+    <h2>View Attendance</h2>
+    <form method="get" class="row g-3 mt-4">
+      <div class="col-md-4">
+        <label for="{{ form.selected_month.id_for_label }}" class="form-label">Select Month</label>
+        {{ form.selected_month }}
+      </div>
+      <div class="col-md-4">
+        <label for="{{ form.selected_year.id_for_label }}" class="form-label">Select Year</label>
+        {{ form.selected_year }}
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary mt-4">Get Details</button>
+      </div>
+    </form>
+
+    {% if selected_month and selected_year %}
+      <h3 class="mt-4">Attendance Details for {{ selected_month }}_{{ selected_year }}</h3>
+
+      <!-- Display the attendance records -->
+      {% if attendance_records %}
+        <div class="table-responsive">
+          <table class="table table-bordered mt-3">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Attendance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record in attendance_records %}
+                <tr>
+                  <td>{{ record.attendance.date|date:"F d, Y" }}</td>
+                  <td>
+                    {% if record.is_present %}
+                      <span class="text-success">Present</span>
+                    {% else %}
+                      <span class="text-danger">Absent</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="mt-3">No attendance records found for the selected month and year.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+  <style>
+    /* Style for h3 headings */
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  color: linear-gradient(135deg, #71b7e6, #9b59b6);
+  margin-bottom: 20px;
+}
+/* Add an underline under the container title */
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  height: 3px;
+  width: 30px;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  color: linear-gradient(135deg, #71b7e6, #9b59b6);
+  margin-bottom: 20px;
+}
+
+/* Add an underline under the container title */
+h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  height: 3px;
+  width: 30px;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+
+/* Style for the "Get Details" button */
+button.btn-primary {
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute; /* Add this line */
+  top:60px;
+}
+button.btn-primary:hover {
+  background: linear-gradient(135deg, #9b59b6, #71b7e6);
+}
+
+/* Style for the attendance table */
+.table {
+  margin-top: 20px;
+}
+
+/* Style for table header */
+.table th {
+  background-color: #f2f2f2;
+}
+
+/* Style for table rows */
+.table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Style for "Present" and "Absent" text in the table */
+.text-success {
+  color: green;
+  font-weight: bold;
+}
+
+.text-danger {
+  color: red;
+  font-weight: bold;
+}
+
+/* Optional: Add spacing to the form fields */
+.form-group {
+  margin-bottom: 15px;
+}
+/* Style for the form labels */
+.form-label {
+  font-weight: bold;
+}
+
+
+  </style>
+{% endblock %} {% endcomment %}
