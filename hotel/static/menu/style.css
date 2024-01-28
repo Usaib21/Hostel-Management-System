@@ -123,17 +123,20 @@
   background: linear-gradient(135deg, #0056b3, #fc8003); /* Change color on hover */
 }
 
-/* Style for Admin dropdown button */
-.btn-group {
-  margin-right: 10px; /* Adjust margin as needed */
-  
+.btn-group.admin {
+  position: fixed;
+  left: calc(50% - 10rem); /* Adjust the value based on your design */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1; /* Ensure the admin button is above the icon button */
 }
 
 /* Style for dropdown button */
 .btn-secondary {
   background: linear-gradient(135deg, #71b7e6, #fc8003);
   color: #fff; /* Set text color */
-  border: none; /* Remove border */
+  border: 1px solid #fff; /* Add a white border */
+  padding: 8px 12px; /* Add padding for a visually appealing button */
 }
 
 /* Style for dropdown menu */
@@ -144,12 +147,18 @@
   margin-top: 8px; /* Adjust margin as needed */
 }
 
+/* Hover effect for dropdown items */
+.dropdown-item:hover {
+  background-color: #495057;
+}
+
+
 /* Adjust position of the dropdown button and menu */
-.btn-group {
+/* .btn-group {
   position: absolute;
   top: 50%;
   left: 56%; /* Adjust the distance from the right side of the navbar */
-}
+/* } */
 .user-profile-link {
   display: flex;
   align-items: center;

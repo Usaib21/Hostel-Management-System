@@ -41,8 +41,8 @@
             </button>
     
             <!-- Add Admin dropdown as a button -->
-            <li class="nav-item dropdown"  style="list-style-type: none; margin-left: 52%;">
-              <div class="btn-group">
+            {% comment %} <div class="nav-item dropdown" > {% endcomment %}
+              <div class="btn-group admin" style= "position: relative; left: calc(60% - 5px);" >
                   <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Admin
                   </button>
@@ -51,8 +51,7 @@
                       <li><a class="dropdown-item" style="font-weight: bold;" href="{% url 'take_attendance' %}">Take Attendance</a></li>
                   </ul>
               </div>
-          </li>
-          
+              
     
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -410,13 +409,8 @@ function displayProfilePicture() {
           window.location.href = "{% url 'notifications' %}";
       });
   </script>
-  
-    
-    
-    
 
-
-    <script>
+  <script>
       document.getElementById("notification-button").addEventListener("click", function() {
           window.location.href = "{% url 'notifications' %}";
       });

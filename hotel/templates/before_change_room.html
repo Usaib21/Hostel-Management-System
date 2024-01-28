@@ -46,7 +46,7 @@
       cursor: pointer;
       width: 150px;
       margin-left: 400px;
-      margin-top: -12px;
+      margin-top: 1rem;
       margin-bottom: 5px; /* Add space between the form and the button */
     }
 
@@ -65,11 +65,11 @@
     h1::before {
       content: "";
       position: absolute;
-      left: 43%;
+      left: 40%;
       transform: translateX(-50%);
       bottom: -5px;
       height: 3px;
-      width: 70px;
+      width: 8rem;
       background: linear-gradient(135deg, #0056b3, #fc8003);
     }
 
@@ -104,6 +104,7 @@
 
       <label for="{{ form.current_hostel.id_for_label }}">Current Hostel:</label>
       {{ form.current_hostel }}
+      
       
       <label for="{{ form.application_reason.id_for_label }}">Application Reason:</label>
       {{ form.application_reason }}

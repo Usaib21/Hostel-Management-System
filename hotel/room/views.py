@@ -719,7 +719,7 @@ def available_rooms_for_change(request, hostel_id, floor_number):
         'hostel': hostel,
         'floor_number': floor_number,
         'rooms_on_floor': rooms_on_floor,
-        'allotment': allotment, 
+        'allotment': allotment,
     }
 
     return render(request, 'available_rooms_for_change.html', context)
@@ -776,6 +776,7 @@ def before_change_room(request):
         form = ChangeRoomRequestForm(request.POST)
         if form.is_valid():
             request_data = form.cleaned_data
+            
             change_request = ChangeRoomRequest.objects.create(
                 student=user,
                 full_name=request_data['full_name'],
@@ -795,6 +796,8 @@ def before_change_room(request):
 
             messages.success(request, "Your room change request has been submitted successfully. We will inform you through email.")
             return redirect('registration_success', pk=hostel_allotment.pk)
+        else:
+            messages.error(request, "Form submission failed. Please check the errors below.")
 
     return render(request, 'before_change_room.html', {'form': form})
 
@@ -808,6 +811,7 @@ def approved_change_room_request(request, request_ids):
         # Your existing approval logic
         change_request.is_approved = True
         change_request.save()
+
 
         # Notify the student via email
         student_email_subject = 'Change Room Request Approved'

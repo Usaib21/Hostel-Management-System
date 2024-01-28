@@ -164,6 +164,27 @@ class MenuItemForm(forms.ModelForm):
 from django import forms
 from .models import ChangeRoomRequest, HostelAllotmentRegistration
 
+# class ChangeRoomRequestForm(forms.ModelForm):
+#     class Meta:
+#         model = ChangeRoomRequest
+#         fields = ['full_name', 'registration_number', 'email', 'current_hostel', 'current_room_number', 'application_reason']
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['application_reason'].widget.attrs['placeholder'] = 'Write your application for room change'
+#         self.fields['current_hostel'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+
+#     def set_current_hostel(self, current_hostel_name):
+#         self.fields['current_hostel'].initial = current_hostel_name
+#         self.fields['current_hostel'].widget.attrs['readonly'] = True
+
+#     def initialize_hostel_fields(self, current_hostel_name):
+#         self.set_current_hostel(current_hostel_name)
+
+#     def initialize_hostel_fields_from_instance(self, instance):
+#         current_hostel_name = instance.student.hostelallotmentregistration.allotted_hostel.name
+#         self.initialize_hostel_fields(current_hostel_name)
+
 class ChangeRoomRequestForm(forms.ModelForm):
     class Meta:
         model = ChangeRoomRequest
@@ -172,16 +193,19 @@ class ChangeRoomRequestForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['application_reason'].widget.attrs['placeholder'] = 'Write your application for room change'
+        self.fields['full_name'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        self.fields['registration_number'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        self.fields['email'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         self.fields['current_hostel'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        self.fields['current_room_number'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
 
     def set_current_hostel(self, current_hostel_name):
         self.fields['current_hostel'].initial = current_hostel_name
         self.fields['current_hostel'].widget.attrs['readonly'] = True
-
+        self.fields['current_room_number'].widget.attrs['readonly'] = True
     def initialize_hostel_fields(self, current_hostel_name):
         self.set_current_hostel(current_hostel_name)
 
     def initialize_hostel_fields_from_instance(self, instance):
         current_hostel_name = instance.student.hostelallotmentregistration.allotted_hostel.name
         self.initialize_hostel_fields(current_hostel_name)
-
