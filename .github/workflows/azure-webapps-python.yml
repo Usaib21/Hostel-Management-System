@@ -20,8 +20,8 @@
 name: Build and deploy Python app to Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: your-app-name  # set this to the name of your Azure Web App
-  PYTHON_VERSION: '3.8'              # set this to the Python version to use
+  AZURE_WEBAPP_NAME: hotel  # set this to the name of your Azure Web App
+  PYTHON_VERSION: '3.9'              # set this to the Python version to use
 
 on:
   push:
@@ -33,7 +33,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows
 
     steps:
       - uses: actions/checkout@v3
@@ -65,7 +65,7 @@ jobs:
   deploy:
     permissions:
       contents: none
-    runs-on: ubuntu-latest
+    runs-on: windows
     needs: build
     environment:
       name: 'Development'
